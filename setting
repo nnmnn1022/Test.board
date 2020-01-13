@@ -1,0 +1,59 @@
+1. 이클립스 다운로드(64bit) www.eclipse.org
+2. JDK 다운로드(32bit) http://www.oracle.com
+3. Tomcat 다운로드(64bit) http://tomcat.apache.org/
+4. Maven 다운로드 http://maven.apache.org/
+
+>> 개발 폴더를 지정해 그곳에 몰아 넣음.
+
+5. 경로 설정 및 JVM 기본메모리 구성 변경 : eclipse/eclipse.ini
+
+-startup
+plugins/org.eclipse.equinox.launcher_1.5.600.v20191014-2022.jar
+--launcher.library
+plugins/org.eclipse.equinox.launcher.win32.win32.x86_64_1.1.1100.v20190907-0426
+-product
+org.eclipse.epp.package.jee.product
+-showsplash
+org.eclipse.epp.package.common
+--launcher.defaultAction
+openFile
+--launcher.defaultAction
+openFile
+--launcher.appendVmargs
++++ 이 부분 추가 +++
+-vm
+C:\DEV\JDK8(JDK가 담긴 폴더)\bin\javaw.exe // 이 JDK와 Eclipse의 bit가 동일해야 실행 됨!
++++++++++++++++++++++++++
+
+-vmargs
+-Dosgi.requiredJavaVersion=1.8
+-Dosgi.instance.area.default=@user.home/eclipse-workspace
+-XX:+UseG1GC
+-XX:+UseStringDeduplication
+--add-modules=ALL-SYSTEM
+-Dosgi.requiredJavaVersion=1.8
+-Dosgi.dataAreaRequiresExplicitInit=true
++++ 이 부분 변경 +++
+-Xms1024m
+-Xmx2048m
++++++++++++++++++++
+
+--add-modules=ALL-SYSTEM
+저장 후 이클립스 실행
+
+6. Tomcat 설정
+Window > Preferences > Server > Runtime Environment > add > 알아서 설치
+
+7. 하단 Server 탭에서 create new server 눌러 톰캣 서버 만들기 > Ctrl + Alt + R로 실행
+
+8. Maven 설정
+8-1. Maven Repository 변경
+C:\DEV\Maven\conf\settings.xml
+
+   | Default: ${user.home}/.m2/repository
+  <localRepository>/path/to/local/repo</localRepository>
+  -->
+  이런식으로 주석처리된 부분이 있음 : 따로 설정하지 않을 시 .m2/repository에서 라이브러리를 관리한다는 의미.
+  
+ C:\DEV\Maven\repository를 만들고
+ <localRepository>C:\DEV\Maven\repository</localRepository> 처럼 변경해준다.
